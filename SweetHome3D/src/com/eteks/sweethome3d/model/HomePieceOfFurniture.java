@@ -513,6 +513,11 @@ public class HomePieceOfFurniture extends HomeObject implements PieceOfFurniture
   public String getInformation() {
     return this.information;
   }
+
+  /**
+   * Returns the volume of this piece of furniture.
+   */
+  public float getVolume() { return this.height * this.depth * this.width }
   
   /**
    * Returns the depth of this piece of furniture.
