@@ -484,6 +484,7 @@ public class Home implements Serializable, Cloneable {
    */
   private boolean isFurnitureSortedPropertyBackwardCompatible(HomePieceOfFurniture.SortableProperty property) {
     switch (property) {
+      case VOLUME:
       case NAME : 
       case WIDTH : 
       case DEPTH :
