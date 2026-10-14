@@ -1221,7 +1221,7 @@ public class FurnitureTable extends JTable implements View, Printable {
         case HEIGHT : 
           return getSizeRenderer(HomePieceOfFurniture.SortableProperty.HEIGHT, preferences);
         case VOLUME :
-          return getSizeRenderer(HomePieceOfFurniture.SotrableProperty.VOLUME, preferences);
+          return getSizeRenderer(HomePieceOfFurniture.SortableProperty.VOLUME, preferences);
         case X : 
           return getSizeRenderer(HomePieceOfFurniture.SortableProperty.X, preferences);
         case Y :
