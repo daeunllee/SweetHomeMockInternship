@@ -517,6 +517,16 @@ public class HomePrintableComponent extends JComponent implements Printable {
     }
     return this.pageCount;
   }
+  /** Returns the viewable levels, in the home's level order. */
+  private List<Level> getPrintedLevels() {
+    List<Level> printedLevels = new ArrayList<Level>();
+    for (Level level : this.home.getLevels()) {   // already in level order
+      if (level.isViewable()) {
+        printedLevels.add(level);
+      }
+    }
+    return printedLevels;
+  }
 
   /**
    * Returns a <code>PageFormat</code> object created from <code>homePrint</code>.
