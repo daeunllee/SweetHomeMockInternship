@@ -184,6 +184,14 @@ public class HomePrintableComponent extends JComponent implements Printable {
    * Prints a given <code>page</code>.
    */
   public int print(Graphics g, PageFormat pageFormat, int page) throws PrinterException {
+    Level selectedLevel = this.home.getSelectedLevel();
+    try {
+      return printPage(g, pageFormat, page);
+    } finally {
+      this.home.setSelectedLevel(selectedLevel);
+    }
+  }
+  private int printPage(Graphics g, PageFormat pageFormat, int page) throws PrinterException {
     // Check current thread isn't interrupted
     if (Thread.interrupted()) {
       throw new InterruptedPrinterException();
