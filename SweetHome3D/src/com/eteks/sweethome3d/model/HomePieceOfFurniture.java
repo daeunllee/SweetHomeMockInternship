@@ -19,6 +19,7 @@
  */
 package com.eteks.sweethome3d.model;
 
+import javax.swing.table.TableCellRenderer;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
