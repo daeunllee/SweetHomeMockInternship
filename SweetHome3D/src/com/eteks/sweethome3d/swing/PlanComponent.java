@@ -2008,6 +2008,50 @@ public class PlanComponent extends JComponent implements PlanView, Scrollable, P
    * that makes it fill <code>pageFormat</code> imageable size if this attribute is <code>null</code>.
    */
   public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
+      List<Level> printedLevels = new ArrayList<Level>();
+      for (Level level : this.home.getLevels()) {
+          if (level.isViewable()) {
+              printedLevels.add(level);
+          }
+      }
+      if (printedLevels.isEmpty()) {
+          // No viewable levels: print the plan as before
+          return printSelectedLevel(g, pageFormat, pageIndex);
+      }
+
+      Level selectedLevel = this.home.getSelectedLevel();
+      try {
+          int levelPage = pageIndex;
+          for (Level level : printedLevels) {
+              this.home.setSelectedLevel(level);
+              int levelPageCount = getSelectedLevelPageCount(pageFormat);
+              if (levelPage < levelPageCount) {
+                  return printSelectedLevel(g, pageFormat, levelPage);
+              }
+              levelPage -= levelPageCount;
+          }
+          return NO_SUCH_PAGE;
+      } finally {
+          this.home.setSelectedLevel(selectedLevel);   // runs even if a page fails
+      }
+  }
+
+  /** Pages needed by the plan of the selected level, counted on a throwaway image. */
+  private int getSelectedLevelPageCount(PageFormat pageFormat) {
+      BufferedImage dummyImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+      Graphics dummyGraphics = dummyImage.getGraphics();
+      try {
+          int count = 0;
+          while (printSelectedLevel(dummyGraphics, pageFormat, count) == PAGE_EXISTS) {
+              count++;
+          }
+          return count;
+      } finally {
+          dummyGraphics.dispose();
+      }
+  }
+
+  public int printSelectedLevel(Graphics g, PageFormat pageFormat, int pageIndex) {
     List<Selectable> printedItems = getPaintedItems(); 
     Rectangle2D printedItemBounds = getItemsBounds(g, printedItems);
     if (printedItemBounds != null) {
